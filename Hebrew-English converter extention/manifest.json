@@ -1,22 +1,30 @@
 {
-    "manifest_version": 3,
-    "name": "Hebrew-English Text Converter",
-    "version": "1.0",
-    "permissions": [
-      "contextMenus",
-      "activeTab",
-      "scripting"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "icons/tmp.png",
-        "48": "icons/tmp.png",
-        "128": "icons/tmp.png"
-      }
+  "manifest_version": 3,
+  "name": "Hebrew-English Text Converter",
+  "version": "1.0",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "commands"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/tmp.png",
+      "48": "icons/tmp.png",
+      "128": "icons/tmp.png"
+    }
+  },
+  "commands": {
+    "convert-text-shortcut": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X"
+      },
+      "description": "Convert selected text between Hebrew and English"
     }
   }
-  
+}

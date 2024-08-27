@@ -3,23 +3,41 @@ chrome.contextMenus.create({
     id: "convert-text",
     title: "Convert Hebrew ↔ English",
     contexts: ["selection"]
-  });
-  
-  // Handle the context menu item click
-  chrome.contextMenus.onClicked.addListener((info, tab) => {
-    console.log("Menu item clicked");
+});
+
+// Handle the context menu item click
+chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "convert-text") {
-        console.log("Menu item clicked, selection:", info.selectionText);
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: convertText,
-        args: [info.selectionText]
-      });
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            function: convertText,
+            args: [info.selectionText]
+        });
     }
-  });
+});
 
-  function convertText(selectedText) {
+// Listen for the keyboard shortcut command
+chrome.commands.onCommand.addListener((command) => {
+    if (command === "convert-text-shortcut") {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            chrome.scripting.executeScript({
+                target: {tabId: tabs[0].id},
+                function: convertText
+            });
+        });
+    }
+});
 
+function convertSelectedText() {
+    const selectedText = window.getSelection().toString();
+    if (selectedText) {
+        convertText(selectedText);
+    }
+}
+
+function convertText(selectedText) {
+    if(!selectedText)
+      selectedText = window.getSelection().toString();
     // Transliteration maps for basic Hebrew ↔ English conversion
     const hebrewToEnglishMap = {
         'א': 't', 'ב': 'c', 'ג': 'd', 'ד': 's', 'ה': 'v', 'ו': 'u', 
@@ -27,7 +45,7 @@ chrome.contextMenus.create({
         'מ': 'n', 'נ': 'b', 'ס': 'x', 'ע': 'g', 'פ': 'p', 'צ': 'm',
         'ק': 'e', 'ר': 'r', 'ש': 'a', 'ת': ',', 'ך': 'l', 'ם': 'o', 
         'ן': 'i', 'ף': ';', 'ץ': '.'
-    };        
+    };
 
     const englishToHebrewMap = {
         't': 'א', 'c': 'ב', 'd': 'ג', 's': 'ד', 'v': 'ה', 'u': 'ו', 
@@ -51,5 +69,3 @@ chrome.contextMenus.create({
     // Replace the selected text with the converted text
     document.execCommand('insertText', false, convertedText);
 }
-
-  
