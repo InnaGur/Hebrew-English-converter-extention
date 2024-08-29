@@ -2,6 +2,11 @@
   "manifest_version": 3,
   "name": "Hebrew-English Text Converter",
   "version": "1.0",
+  "icons": {
+    "16": "icons/arrows16.png",
+    "48": "icons/arrows48.png",
+    "128": "icons/arrows128.png"
+  },
   "permissions": [
     "contextMenus",
     "activeTab",
@@ -14,9 +19,9 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/tmp.png",
-      "48": "icons/tmp.png",
-      "128": "icons/tmp.png"
+      "16": "icons/arrows16.png",
+      "48": "icons/arrows48.png",
+      "128": "icons/arrows128.png"
     }
   },
   "commands": {
