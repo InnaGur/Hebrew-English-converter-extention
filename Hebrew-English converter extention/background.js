@@ -21,7 +21,7 @@ chrome.commands.onCommand.addListener((command) => {
     if (command === "convert-text-shortcut") {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             chrome.scripting.executeScript({
-                target: {tabId: tabs[0].id},
+                target: {tabId: tabs[0].id, allFrames: true },
                 function: convertText
             });
         });
